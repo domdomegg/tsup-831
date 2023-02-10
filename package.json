@@ -1,0 +1,11 @@
+{
+  "name": "tsup-831",
+  "description": "Minimal reproducible example for tsup issue #831",
+  "scripts": {
+    "start": "node demo.js"
+  },
+  "devDependencies": {
+    "@types/node": "^18.13.0",
+    "tsup": "^6.6.0"
+  }
+}
