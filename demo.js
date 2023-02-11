@@ -1,11 +1,11 @@
-const { exec, execSync } = require('node:child_process');
+const { execSync, spawn } = require('node:child_process');
 const { existsSync } = require('node:fs');
 const { join } = require('node:path');
 
 const main = async () => {
   console.log('Starting tsup with --watch --clean --publicDir...')
-  const proc = exec('npx tsup src/index.ts --watch --clean --publicDir');
-  await wait(500)
+  const proc = spawn('npx', ['tsup', 'src/index.ts', '--watch', '--clean', '--publicDir'], { stdio: 'inherit' });
+  await wait(1000)
 
   console.log('Checking example.txt (from public dir) is copied')
   if (!existsSync(join(__dirname, 'dist', 'example.txt'))) {
@@ -15,7 +15,7 @@ const main = async () => {
   
   console.log('Now editing src/index.ts...')
   execSync('touch src/index.ts')
-  await wait(500)
+  await wait(1000)
   
   console.log('Checking example.txt (from public dir) is copied now')
   if (existsSync(join(__dirname, 'dist', 'example.txt'))) {
@@ -24,6 +24,7 @@ const main = async () => {
   console.log('It is missing! This is the bug.')
 
   proc.kill('SIGINT')
+  process.exit()
 }
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
