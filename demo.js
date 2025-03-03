@@ -9,7 +9,9 @@ const main = async () => {
 
   console.log('Checking example.txt (from public dir) is copied')
   if (!existsSync(join(__dirname, 'dist', 'example.txt'))) {
-    throw new Error("example.txt missing")
+    console.log('It is missing! This is the bug.')
+    proc.kill('SIGINT')
+    process.exit()
   }
   console.log('It is copied correctly!')
   
